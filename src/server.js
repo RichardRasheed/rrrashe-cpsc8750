@@ -13,6 +13,10 @@ const app = express();
 // world wide web).
 const port = process.env.PORT || 3000;
 
+
+//adding node fetch to our implementation
+const fetch = require('node-fetch');
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
@@ -43,6 +47,23 @@ app.get('/', (req, res) => {
 
   });
   console.log(req.cookies);
+});
+
+
+//adding more to the trivia endpoint
+app.get("/trivia", async (req, res) => {
+  // fetch the data
+  const response = await fetch("https://opentdb.com/api.php?amount=1&type=multiple");
+
+  // interpret the body as json
+  const content = await response.json();
+
+  // TODO: make proper html
+  const format = JSON.stringify(content, 2);
+
+  // respond to the browser
+  // TODO: make proper html
+  res.send(JSON.stringify(content, 2));
 });
 
 // Start listening for network connections
